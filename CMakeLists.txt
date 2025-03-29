@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(SDK_PATH $ENV{LUCKFOX_SDK_PATH})
+
+# 添加默认SDK路径设置
+if(NOT SDK_PATH)
+    set(SDK_PATH "/home/yuanhao/linux/luckfox-pico")
+    message(STATUS "Using default SDK path: ${SDK_PATH}")
+else()
+    message(STATUS "Using environment variable SDK path: ${SDK_PATH}")
+endif()
+
 if(NOT SDK_PATH)
     message(WARNING "Please Set Luckfox-pico SDK Path. Such as:export LUCKFOX_SDK_PATH=/home/user/luckfox-pico")
     return()
@@ -28,6 +37,9 @@ endif()
 
 
 project(${EXAMPLE_NAME})
+
+# 生成clangd用的compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ 3rdparty.out)
